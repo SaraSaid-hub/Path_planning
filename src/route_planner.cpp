@@ -47,7 +47,6 @@ for (RouteModel::Node *node : (*current_node).neighbors){
     (*node).parent = current_node;
 (*node).h_value=CalculateHValue(node);
 (*node).g_value = (*current_node).g_value + (*node).distance(*current_node);
-//(*node).neighbors.back()->g_value=(*current_node).distance((*start_node));
 (*node).visited=true;
 open_list.push_back(node);
 
@@ -76,23 +75,6 @@ void CellSort(vector<RouteModel::Node *> *v) {
 RouteModel::Node *RoutePlanner::NextNode() {
   
   CellSort(&open_list);
-  //pubble sort for open_list
-
-/*for (int i=0;i<RoutePlanner::open_list.size()-1;i++){
- 
- for(int j=0;j<RoutePlanner::open_list.size()-1;i++){
-
-   float sum_j=(*(open_list[j])).h_value+(*(open_list[j])).g_value;
-   float sum_j1=(*(open_list[j+1])).h_value+(*(open_list[j+1])).g_value;
-   if(sum_j<sum_j1){
-     RouteModel::Node * temp;
-     temp=open_list[j];
-     open_list[j]=open_list[j+1];
-     open_list[j+1]=temp;
-   }
- }
-
-}*/
 
  RouteModel::Node *current_node= open_list.back();
  open_list.pop_back();
@@ -117,7 +99,7 @@ while(current_node!=start_node){
 distance=distance+(*current_node).distance(*(current_node->parent)) ;
   current_node=(*current_node).parent;
 }
-//path_found.push_back((*start_node));
+
 path_found.push_back((*current_node));
 std::reverse(path_found.begin(),path_found.end());
     // TODO: Implement your solution here.
@@ -137,17 +119,14 @@ std::reverse(path_found.begin(),path_found.end());
 
 void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = nullptr;
-    //RouteModel::Node *start=start_node;
+   
     (*start_node).visited= true ;
     open_list.push_back(start_node);
 
     while(RoutePlanner::open_list.size()>0){
 
      current_node=NextNode();
-     //commented by sara
-     //RouteModel::Node *current_node= open_list.back();
-     //open_list.pop_back();
-//if((*current_node).x==(*end_node).x && (*current_node).y==(*end_node).y )
+   
       if(current_node==end_node ){
         m_Model.path=ConstructFinalPath(current_node);
 
